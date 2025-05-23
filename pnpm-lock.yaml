@@ -11,18 +11,12 @@ importers:
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
-      dotenv:
-        specifier: ^16.5.0
-        version: 16.5.0
       mima-kit:
         specifier: ^0.0.16
         version: 0.0.16
       ofetch:
         specifier: ^1.4.1
         version: 1.4.1
-      tsx:
-        specifier: ^4.19.4
-        version: 4.19.4
       ufo:
         specifier: ^1.6.1
         version: 1.6.1
@@ -1324,10 +1318,6 @@ packages:
 
   devlop@1.1.0:
     resolution: {integrity: sha512-RWmIqhcFf1lRYBvNmr7qTNuyCt/7/ns2jbpp1+PalgE/rDQcBT0fioSMUpJ93irlUhC5hrg4cYqe6U+0ImW0rA==}
-
-  dotenv@16.5.0:
-    resolution: {integrity: sha512-m/C+AwOAr9/W1UOIZUo232ejMNnJAJtYQjUbHoNTBNTJSvqzzDh7vnrei3o3r3m9blf6ZoDkvcw0VmozNRFJxg==}
-    engines: {node: '>=12'}
 
   electron-to-chromium@1.5.73:
     resolution: {integrity: sha512-8wGNxG9tAG5KhGd3eeA0o6ixhiNdgr0DcHWm85XPCphwZgD1lIEoi6t3VERayWao7SF7AAZTw6oARGJeVjH8Kg==}
@@ -3791,8 +3781,6 @@ snapshots:
     dependencies:
       dequal: 2.0.3
 
-  dotenv@16.5.0: {}
-
   electron-to-chromium@1.5.73: {}
 
   emoji-regex@8.0.0:
@@ -5294,10 +5282,11 @@ snapshots:
 
   tsx@4.19.4:
     dependencies:
-      esbuild: 0.25.1
+      esbuild: 0.25.4
       get-tsconfig: 4.10.0
     optionalDependencies:
       fsevents: 2.3.3
+    optional: true
 
   type-check@0.4.0:
     dependencies:

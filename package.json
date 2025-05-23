@@ -19,10 +19,8 @@
   },
   "dependencies": {
     "date-fns": "^4.1.0",
-    "dotenv": "^16.5.0",
     "mima-kit": "^0.0.16",
     "ofetch": "^1.4.1",
-    "tsx": "^4.19.4",
     "ufo": "^1.6.1"
   },
   "devDependencies": {

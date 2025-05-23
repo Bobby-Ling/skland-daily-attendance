@@ -9,10 +9,13 @@
   "keywords": [],
   "main": "index.js",
   "scripts": {
-    "attendance": "tsx main.ts",
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev --test-scheduled",
+    "start": "wrangler dev --test-scheduled",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "test": "vitest"
+    "test": "vitest",
+    "cf-typegen": "wrangler types"
   },
   "dependencies": {
     "date-fns": "^4.1.0",
@@ -24,10 +27,12 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.13.2",
+    "@cloudflare/vitest-pool-workers": "^0.8.32",
     "@types/eslint": "^9.6.1",
     "@types/node": "^22.15.21",
     "eslint": "^9.27.0",
     "typescript": "^5.8.3",
-    "vitest": "^3.1.4"
+    "vitest": "^3.1.4",
+    "wrangler": "^4.16.1"
   }
 }

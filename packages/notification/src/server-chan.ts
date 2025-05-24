@@ -1,3 +1,5 @@
+import { ofetch } from 'ofetch'
+
 export async function serverChan(sendkey: string, title: string, content: string): Promise<number> {
   if (typeof sendkey !== 'string') {
     console.error('Wrong type for serverChan token.')
@@ -10,17 +12,13 @@ export async function serverChan(sendkey: string, title: string, content: string
   }
   try {
     // const resp = await axios.post(`https://sctapi.ftqq.com/${sendkey}.send`, payload);
-    const resp = await fetch(
+    const data = await ofetch<{ code: number }>(
       `https://sctapi.ftqq.com/${sendkey}.send`,
       {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
+        body: payload,
       },
     )
-    const data = await resp.json()
     if (data.code === 0) {
       console.log('[ServerChan] Send message to ServerChan successfully.')
       return 0

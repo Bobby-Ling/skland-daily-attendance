@@ -31,7 +31,7 @@
     "ufo": "^1.6.1"
   },
   "devDependencies": {
-    "tsdown": "^0.12.2",
+    "tsdown": "^0.12.3",
     "vitest": "^3.1.4"
   }
 }

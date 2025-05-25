@@ -2,7 +2,7 @@
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "skland-daily-attendance",
   "compatibility_date": "2025-04-04",
-  "main": "./workers/app.ts",
+  "main": "./src/worker.ts",
   "observability": {
     "enabled": true
   },

@@ -9,7 +9,8 @@
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "build": "pnpm --filter \"./packages/*\" build"
+    "build": "pnpm --filter \"./packages/*\" build",
+    "prepare": "pnpm build"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.13.2",

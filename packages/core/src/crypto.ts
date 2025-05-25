@@ -115,7 +115,7 @@ export async function extractJWKFromPEM(publicKeyPEM: string) {
   )
 
   // 导出为JWK格式
-  const jwk = await crypto.subtle.exportKey('jwk', cryptoKey) as JsonWebKey
+  const jwk = await crypto.subtle.exportKey('jwk', cryptoKey)
 
   return {
     n: base64URLToBigInt(jwk.n!),

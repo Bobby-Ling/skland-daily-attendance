@@ -14,7 +14,8 @@
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
-    "@skland-x/core": "workspace:*"
+    "@skland-x/core": "workspace:*",
+    "unstorage": "^1.16.0"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.8.32",

@@ -1,4 +1,8 @@
+import type { BindingUserItem } from '@skland-x/core'
+import type { Storage } from 'unstorage'
 import { attendance, auth, getBinding, signIn } from '@skland-x/core'
+import { createStorage } from 'unstorage'
+import cloudflareKVBindingDriver from 'unstorage/drivers/cloudflare-kv-binding'
 
 /**
  * Welcome to Cloudflare Workers!
@@ -17,6 +21,44 @@ import { attendance, auth, getBinding, signIn } from '@skland-x/core'
  * Learn more at https://developers.cloudflare.com/workers/
  */
 
+function formatCharacterName(character: BindingUserItem) {
+  return `${formatChannelName(character.channelMasterId)}角色${formatPrivacyName(character.nickName)}`
+}
+
+function formatChannelName(channelMasterId: string) {
+  return (Number(channelMasterId) - 1) ? 'B 服' : '官服'
+}
+
+function formatPrivacyName(nickName: string) {
+  const [name, number] = nickName.split('#')
+  if (name.length <= 2)
+    return nickName
+
+  const firstChar = name[0]
+  const lastChar = name[name.length - 1]
+  const stars = '*'.repeat(name.length - 2)
+
+  return `${firstChar}${stars}${lastChar}#${number}`
+}
+
+async function cleanOutdatedData(storage: Storage<true>) {
+  const allKeys = await storage.getKeys()
+
+  const keysWithDate = allKeys.map((key) => {
+    const [date] = key.split(':')
+
+    return { date: new Date(date), key }
+  })
+
+  const keysToRemove = keysWithDate.filter(({ date }) => {
+    const sevenDaysAgo = new Date(new Date().toISOString().split('T')[0])
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
+    return date < sevenDaysAgo
+  })
+
+  await Promise.all(keysToRemove.map(i => storage.removeItem(i.key)))
+}
+
 export default {
   fetch() {
     return new Response(`Running in ${navigator.userAgent}!`)
@@ -25,20 +67,37 @@ export default {
     if (!env.SKLAND_TOKEN) {
       throw new Error('SKLAND_TOKEN 未设置')
     }
+    const date = new Date().toISOString().split('T')[0]
+    const storage = createStorage<true>({
+      driver: cloudflareKVBindingDriver({ binding: env.SKLAND_DAILY_ATTENDANCE_STORAGE }),
+    })
 
-    const { code } = await auth(env.SKLAND_TOKEN)
-    const { cred, token: signToken } = await signIn(code)
-    const { list } = await getBinding(cred, signToken)
+    const tokens = env.SKLAND_TOKEN.split(',')
 
-    const characterList = list.filter(i => i.appCode === 'arknights').map(i => i.bindingList).flat()
+    console.log(`共需要签到 ${tokens.length} 个账号`)
 
-    const maxRetries = 3
-    let successAttendance = 0
-    await Promise.all(characterList.map(async (character) => {
-      console.log(`将签到第${successAttendance + 1}个角色`)
+    let doneAccount = 0
+    for (const token of tokens) {
+      console.log(`开始签到 ${doneAccount + 1} 个账号`)
 
-      let retries = 0 // 初始化重试计数器
-      while (retries < maxRetries) {
+      const { code } = await auth(token)
+      const { cred, token: signToken } = await signIn(code)
+      const { list } = await getBinding(cred, signToken)
+
+      const characterList = list.filter(i => i.appCode === 'arknights').map(i => i.bindingList).flat()
+
+      let successAttendance = 0
+
+      for (const character of characterList) {
+        console.log(`将签到第 ${successAttendance + 1} 个角色`)
+
+        const key = `${date}:${character.uid}`
+        const isAttended = await storage.getItem(key)
+        if (isAttended) {
+          console.log(`${formatCharacterName(character)}今天已经签到过了`)
+          continue
+        }
+
         try {
           const data = await attendance(cred, signToken, {
             uid: character.uid,
@@ -46,39 +105,39 @@ export default {
           })
           if (data) {
             if (data.code === 0 && data.message === 'OK') {
-              const msg = `${(Number(character.channelMasterId) - 1) ? 'B 服' : '官服'}角色 ${successAttendance + 1} 签到成功${`, 获得了${data.data.awards.map(a => `「${a.resource.name}」${a.count}个`).join(',')}`}`
+              const msg = `${formatCharacterName(character)}签到成功${`, 获得了${data.data.awards.map(a => `「${a.resource.name}」${a.count}个`).join(',')}`}`
               console.log(msg)
               successAttendance++
-              break // 签到成功，跳出重试循环
+              await storage.setItem(key, true)
             }
             else {
-              const msg = `${(Number(character.channelMasterId) - 1) ? 'B 服' : '官服'}角色 ${successAttendance + 1} 签到失败${`, 错误消息: ${data.message}\n\n\`\`\`json\n${JSON.stringify(data, null, 2)}\n\`\`\``}`
+              const msg = `${formatCharacterName(character)}签到失败${`, 错误消息: ${data.message}\n\n\`\`\`json\n${JSON.stringify(data, null, 2)}\n\`\`\``}`
               console.error(msg)
-              retries++ // 签到失败，增加重试计数器
             }
           }
           else {
-            console.log(`${(Number(character.channelMasterId) - 1) ? 'B 服' : '官服'}角色 ${successAttendance + 1} 今天已经签到过了`)
-            break // 已经签到过，跳出重试循环
+            console.log(`${formatCharacterName(character)}今天已经签到过了`)
+            await storage.setItem(key, true)
           }
         }
         catch (error: any) {
           if (error.response && error.response.status === 403) {
-            console.log(`${(Number(character.channelMasterId) - 1) ? 'B 服' : '官服'}角色 ${successAttendance + 1} 今天已经签到过了`)
-            break // 已经签到过，跳出重试循环
+            console.log(`${formatCharacterName(character)}今天已经签到过了`)
+            await storage.setItem(key, true)
           }
           else {
             console.error(`签到过程中出现未知错误: ${error.message}`)
             console.error('发生未知错误，工作流终止。')
-            retries++ // 增加重试计数器
-            if (retries >= maxRetries) {
-              return
-            }
           }
         }
+
         // 多个角色之间的延时
         await new Promise(resolve => setTimeout(resolve, 3000))
       }
-    }))
+
+      doneAccount++
+    }
+
+    await cleanOutdatedData(storage)
   },
 } satisfies ExportedHandler<Env>

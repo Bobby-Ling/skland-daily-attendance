@@ -8,7 +8,13 @@
   },
   "triggers": {
     "crons": [
-      "0 16 * * *"
+      "30 * * * *"
     ]
-  }
+  },
+  "kv_namespaces": [
+    {
+      "binding": "SKLAND_DAILY_ATTENDANCE_STORAGE",
+      "id": "e9abe8c1-14e3-4e77-a89c-bbb099a83237",
+    }
+  ]
 }

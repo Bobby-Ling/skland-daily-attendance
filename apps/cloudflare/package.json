@@ -14,7 +14,11 @@
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
+    "@date-fns/tz": "^1.2.0",
     "@skland-x/core": "workspace:*",
+    "date-fns": "^4.1.0",
+    "defu": "^6.1.4",
+    "unctx": "^2.4.1",
     "unstorage": "^1.16.0"
   },
   "devDependencies": {

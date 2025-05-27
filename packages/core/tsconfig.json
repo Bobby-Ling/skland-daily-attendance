@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "lib": ["es2023"],
+    "lib": [
+      "es2023",
+      "DOM"
+    ],
     "moduleDetection": "force",
     "module": "preserve",
     "moduleResolution": "bundler",
@@ -14,5 +17,8 @@
     "verbatimModuleSyntax": true,
     "skipLibCheck": true
   },
-  "include": ["src", "tests"]
+  "include": [
+    "src",
+    "tests"
+  ]
 }

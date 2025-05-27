@@ -164,7 +164,9 @@ async function checkUserBindingsAllAttended(userId: string) {
  */
 
 export default {
-  fetch() {
+  async fetch() {
+    const module = WebAssembly.validate
+    console.log(module)
     return new Response(`Running in ${navigator.userAgent}!`)
   },
   async scheduled(_event, env, _ctx): Promise<void> {
@@ -213,7 +215,10 @@ export default {
         }
 
         for (const [chunkIndex, chunk] of chunks.entries()) {
-          console.log(`处理第 ${chunkIndex + 1}/${chunks.length} 批角色`)
+          if (chunks.length > 1) {
+            console.log(`处理第 ${chunkIndex + 1}/${chunks.length} 批角色`)
+          }
+
           await Promise.all(chunk.map(character =>
             attendSingleCharacter(character, cred, signToken),
           ))

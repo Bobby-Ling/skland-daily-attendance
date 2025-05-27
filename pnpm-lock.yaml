@@ -51,6 +51,9 @@ importers:
       '@skland-x/core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@skland-x/notification':
+        specifier: workspace:*
+        version: link:../../packages/notification
     devDependencies:
       '@types/node':
         specifier: ^22.15.21

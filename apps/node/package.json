@@ -7,7 +7,8 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@skland-x/core": "workspace:*"
+    "@skland-x/core": "workspace:*",
+    "@skland-x/notification": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^22.15.21",

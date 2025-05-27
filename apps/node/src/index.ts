@@ -1,7 +1,8 @@
 import assert from 'node:assert'
 import process from 'node:process'
 import { doAttendanceForAccount } from './attendance'
-import 'dotenv/config'
+
+process.loadEnvFile('.env')
 
 assert(typeof process.env.SKLAND_TOKEN === 'string', 'SKLAND_TOKEN 未设置')
 

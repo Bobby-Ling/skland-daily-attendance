@@ -54,6 +54,9 @@ importers:
       '@skland-x/notification':
         specifier: workspace:*
         version: link:../../packages/notification
+      tsx:
+        specifier: ^4.19.4
+        version: 4.19.4
     devDependencies:
       '@types/node':
         specifier: ^22.15.21
@@ -5593,7 +5596,6 @@ snapshots:
       get-tsconfig: 4.10.1
     optionalDependencies:
       fsevents: 2.3.3
-    optional: true
 
   type-check@0.4.0:
     dependencies:

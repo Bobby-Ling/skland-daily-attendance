@@ -4,11 +4,13 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "test": "vitest"
+    "test": "vitest",
+    "start": "tsx src/index.ts"
   },
   "dependencies": {
     "@skland-x/core": "workspace:*",
-    "@skland-x/notification": "workspace:*"
+    "@skland-x/notification": "workspace:*",
+    "tsx": "^4.19.4"
   },
   "devDependencies": {
     "@types/node": "^22.15.21",

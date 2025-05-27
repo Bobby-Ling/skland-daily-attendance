@@ -22,26 +22,16 @@ function createCombinePushMessage(options: Options) {
       hasError = true
   }
   const push = async () => {
+    const title = `【森空岛每日签到】`
+    const content = messages.join('\n\n')
     if (options.withServerChan) {
-      await serverChan(
-        options.withServerChan,
-        `【森空岛每日签到】`,
-        messages.join('\n\n'),
-      )
+      await serverChan(options.withServerChan, title, content)
     }
     if (options.withBark) {
-      await bark(
-        options.withBark,
-        `【森空岛每日签到】`,
-        messages.join('\n\n'),
-      )
+      await bark(options.withBark, title, content)
     }
     if (options.withMessagePusher) {
-      await messagePusher(
-        options.withMessagePusher,
-        `【森空岛每日签到】`,
-        messages.join('\n\n'),
-      )
+      await messagePusher(options.withMessagePusher, title, content)
     }
     // quit with error
     if (hasError)

@@ -1,9 +1,9 @@
 import { ofetch } from 'ofetch'
 
-export async function serverChan(sendkey: string, title: string, content: string): Promise<number> {
+export async function serverChan(sendkey: string, title: string, content: string) {
   if (typeof sendkey !== 'string') {
     console.error('Wrong type for serverChan token.')
-    return -1
+    return
     // throw new Error("Wrong type for serverChan token.");
   }
   const payload = {
@@ -21,15 +21,15 @@ export async function serverChan(sendkey: string, title: string, content: string
     )
     if (data.code === 0) {
       console.log('[ServerChan] Send message to ServerChan successfully.')
-      return 0
+      return
     }
     else {
       console.log(`[ServerChan][Send Message Response] ${data}`)
-      return -1
+      return
     }
   }
   catch (error) {
     console.error(`[ServerChan] Error: ${error}`)
-    return -1
+    return
   }
 }

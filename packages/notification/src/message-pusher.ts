@@ -3,7 +3,7 @@ import { ofetch } from 'ofetch'
 export async function messagePusher(url: string, title: string, content: string) {
   if (typeof url !== 'string' || !url.startsWith('https://')) {
     console.error('Wrong type for MessagePusher URL.')
-    return -1
+    return
   }
 
   const payload = {
@@ -23,6 +23,6 @@ export async function messagePusher(url: string, title: string, content: string)
   }
   catch (error) {
     console.error(`[MessagePusher] Error: ${error}`)
-    return -1
+    return
   }
 }

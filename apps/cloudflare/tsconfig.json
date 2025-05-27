@@ -5,12 +5,12 @@
       "ES2023"
     ],
     "moduleDetection": "force",
-    "module": "ESNext", 
+    "module": "ESNext",
     "moduleResolution": "bundler",
     "types": [
       "./worker-configuration.d.ts"
     ],
-    "allowImportingTsExtensions": true, 
+    "allowImportingTsExtensions": true,
     "strict": true,
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,

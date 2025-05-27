@@ -23,6 +23,5 @@ export async function bark(url: string, title: string, content: string) {
   }
   catch (error) {
     console.error(`[Bark] Error: ${error}`)
-    return
   }
 }

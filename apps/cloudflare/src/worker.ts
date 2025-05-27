@@ -53,7 +53,6 @@ async function cleanOutdatedData() {
   await Promise.all(keysToRemove.map(i => storage.removeItem(i.key)))
 }
 
-
 // 错误处理函数
 async function handleAttendanceError(error: any, character: BindingUserItem, storage: Storage, key: string) {
   if (error.response?.status === 403) {

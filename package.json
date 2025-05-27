@@ -1,7 +1,8 @@
 {
-  "name": "skland-daily-attendance",
+  "name": "skland-x",
   "type": "module",
   "version": "1.0.0",
+  "private": true,
   "packageManager": "pnpm@10.11.0",
   "description": "",
   "author": "",

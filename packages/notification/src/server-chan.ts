@@ -21,15 +21,12 @@ export async function serverChan(sendkey: string, title: string, content: string
     )
     if (data.code === 0) {
       console.log('[ServerChan] Send message to ServerChan successfully.')
-      return
     }
     else {
       console.log(`[ServerChan][Send Message Response] ${data}`)
-      return
     }
   }
   catch (error) {
     console.error(`[ServerChan] Error: ${error}`)
-    return
   }
 }

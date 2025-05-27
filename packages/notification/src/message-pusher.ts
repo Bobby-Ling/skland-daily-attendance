@@ -23,6 +23,5 @@ export async function messagePusher(url: string, title: string, content: string)
   }
   catch (error) {
     console.error(`[MessagePusher] Error: ${error}`)
-    return
   }
 }

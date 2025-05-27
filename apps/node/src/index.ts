@@ -10,6 +10,7 @@ const accounts = process.env.SKLAND_TOKEN.split(',')
 
 for (const [index, token] of accounts.entries()) {
   console.log(`开始处理第 ${index + 1}/${accounts.length} 个账号`)
+  // eslint-disable-next-line antfu/no-top-level-await
   await doAttendanceForAccount(token, {
     withServerChan: process.env.SERVER_CHAN_TOKEN,
     withBark: process.env.BARK_URL,
